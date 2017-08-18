@@ -6,7 +6,7 @@ A Clojure library designed to ... well, that part is up to you.
 
 This will interact with firebase jwt at one edge and will be largely difficult to test in that regard. Tokens expire and must be signed with a private key.
 
-These keys can be generated using cljsjs/firebase "4.2.0" and the config info from [https://console.firebase.google.com/project/breezeehr.com:breeze-ehr/authentication/users](Firebase Setup) and clicking on "Web Setup".
+These keys can be generated using cljsjs/firebase "4.2.0" and the config info from the Firebase Setup https://console.firebase.google.com/project/breezeehr.com:breeze-ehr/authentication/users  and clicking on "Web Setup".
 
 
     (defn register-firebase [config]
