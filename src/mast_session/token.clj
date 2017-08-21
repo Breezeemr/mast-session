@@ -3,6 +3,7 @@
             [buddy.sign.jws :as jws]
             [buddy.core.keys :as ks]
             [clj-time.core :as t]
+            [clj-time.coerce :as convert]
             [mast-session.certs :as certs]))
 
 (defn decode-google-payload
@@ -43,3 +44,31 @@
 ;;  :auth_time 1503086744,
 ;;  :user_id "Spgusa58rXSxAcfL0dab5yBP3Iz2",
 ;;  :iat 1503086744}
+
+(defn firebase->user
+  "Normalize timestamps"
+  [firebase]
+  (letfn [(timestamp [m v] (update m v convert/from-epoch))]
+    (let [bad-names    (-> firebase
+                         (timestamp :exp)
+                         (timestamp :auth_time)
+                         (timestamp :iat))
+          renamed-keys {:iat            :issued-at
+                        :exp            :expires
+                        :iss            :issuer
+                        :sub            :subject
+                        :aud            :audience
+                        :auth_time      :auth-time
+                        :user_id        :user-id
+                        :email_verified :email-verified}]
+      (merge (select-keys bad-names [:identities :email])
+        (reduce (fn [m [old-name new-name]]
+                  (assoc m new-name (get bad-names old-name)))
+          {}
+          renamed-keys)))))
+
+(defn token->user
+  [token]
+  (if-let [firebase (decode-object token)]
+    (firebase->user firebase)
+    nil))
