@@ -3,5 +3,6 @@
   :url "http://breezeehr.com"
   :license {:name "No License"}
   :dependencies [[org.clojure/clojure "1.8.0"]
-                 [buddy "1.3.0"]
+                 [buddy "1.3.0" :exclusions [buddy-sign]]
+                 [buddy/buddy-sign "2.0.0"]
                  [clj-time "0.14.0"]])
