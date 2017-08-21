@@ -5,4 +5,6 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [buddy "1.3.0" :exclusions [buddy-sign]]
                  [buddy/buddy-sign "2.0.0"]
-                 [clj-time "0.14.0"]])
+                 [clj-time "0.14.0"]
+                 [clj-http "3.7.0"]
+                 [cheshire "5.8.0"]])

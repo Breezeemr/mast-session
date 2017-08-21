@@ -1,4 +1,6 @@
-(ns mast-session.certs)
+(ns mast-session.certs
+  (:require [clj-http.client :as client]
+            [cheshire.core :as json]))
 
 ;;; These certs are from
 ;;; https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com
@@ -19,3 +21,11 @@
    "c947c408c8dd053f7e13117c4e00f0b2b16dc789" "-----BEGIN CERTIFICATE-----\nMIIDHDCCAgSgAwIBAgIICE1Jj+j4yf8wDQYJKoZIhvcNAQEFBQAwMTEvMC0GA1UE\nAxMmc2VjdXJldG9rZW4uc3lzdGVtLmdzZXJ2aWNlYWNjb3VudC5jb20wHhcNMTcw\nODIwMDA0NTI2WhcNMTcwODIzMDExNTI2WjAxMS8wLQYDVQQDEyZzZWN1cmV0b2tl\nbi5zeXN0ZW0uZ3NlcnZpY2VhY2NvdW50LmNvbTCCASIwDQYJKoZIhvcNAQEBBQAD\nggEPADCCAQoCggEBAI/PlhEYY9orCrm6np7s97QNPncHhTw0naBh2TiXa5/uq5fR\n9IncSbWle5rup2zuLSab8sPqpzsEFdw32nNFKm9MIcfE6+IxiJO33yWkaF4porPs\nQ3GQuTKt3xScLvhujkQGhj31erLNmXQsRD9wt1bUyM09NalhVbbfY/aqTMOyiqVq\nCfXsriBPLe9DnGncSZZ01VAd/+wYpErov8x4bRoa8/s/DmodsNnvxL4td+LDTMNz\nD3dM65ZSM6yXvo2ks36h9c9GghCk15bHLnidI+Sj0JI5GEcVWc98qS0BYE6WHqsf\nZUaUhIFhMTm/cqnsYG7GsZWvC7KLV5iP/ktZfKsCAwEAAaM4MDYwDAYDVR0TAQH/\nBAIwADAOBgNVHQ8BAf8EBAMCB4AwFgYDVR0lAQH/BAwwCgYIKwYBBQUHAwIwDQYJ\nKoZIhvcNAQEFBQADggEBAGCxjV13iiiCBRJHA0dwCmjiZ7g3Mr1HIEo0zac9f19T\n2k+7QavO5Z65pTxQJFs4Po9l7cQBkXXKlXlcXBY/o+oWgjWXHYV1rF1YH78soRDM\n8kKmjqJLL9QyHC0v6Lh07Miby3zcB8dHkeD3Z0Epwv/79kZuiQ15ziEgL+J2bHfD\nPJaRTMOy3oLHS8CSTa9B3Naahs2knJ1j3ZWZhb2vkRW985wBE9WPldihF7TI5Bnx\nFksm8g+WhJf2eFvMZ1Gv4MVKLd1TUpqaYbKy7W9Si73ZU+MN2m+hr8tZZPna63tB\n9K8lAr/wvORGO/bvyzmGatZfKO+YewLJp8eli/ZiFN0=\n-----END CERTIFICATE-----\n",
    "133ea9233b2d2699010c49da0642be6f8c946884" "-----BEGIN CERTIFICATE-----\nMIIDHDCCAgSgAwIBAgIIAlDfBLN1fs0wDQYJKoZIhvcNAQEFBQAwMTEvMC0GA1UE\nAxMmc2VjdXJldG9rZW4uc3lzdGVtLmdzZXJ2aWNlYWNjb3VudC5jb20wHhcNMTcw\nODIyMDA0NTI2WhcNMTcwODI1MDExNTI2WjAxMS8wLQYDVQQDEyZzZWN1cmV0b2tl\nbi5zeXN0ZW0uZ3NlcnZpY2VhY2NvdW50LmNvbTCCASIwDQYJKoZIhvcNAQEBBQAD\nggEPADCCAQoCggEBAKsOsphy7ZoqRqxgjQnJgYLpLAKNr4axnjlAM5YnDWLq3xwX\noyna8PMHuf3uqIVYUiZZCYkn4ynjxUyTlLm+5z6qstnJNaQqK8bSvDw9Fo7nFWcu\nNpJzVyq3EVtnHKUCkrDxAt2+iCax019r+j37h8y55OQjq1WLfavYkKmp27Kb0zpo\nPdYL/kmsJqb4TnsygFpSNjCCV/RrDIKz8DwhtuAuE7laqjocrU0jwMOhb/pTQM5g\np4LC23kIfJ9W/ALQpyZfbdjA7LmEngR4dMV690NmxkYqjaqf/us/qm/QMdbQdS0a\ntLBwYplCLjOuMWIozwbm2Kh3oY3kO74nxEEr+bcCAwEAAaM4MDYwDAYDVR0TAQH/\nBAIwADAOBgNVHQ8BAf8EBAMCB4AwFgYDVR0lAQH/BAwwCgYIKwYBBQUHAwIwDQYJ\nKoZIhvcNAQEFBQADggEBAC2lQP7pjia0ThCcPfQceTjXSSEiScF9ajLpfyFt/om3\nMvIFpf3I7XngORvmOSRQ8tApJ0qF3WYa5+rjyJatpvLj9OdBILegNPKw1tCsYI5X\n9GOtuoQpMTmTsEDYn/iXPHsh2Izk8Yh88bQQxDY5iNNQN0Yxu7e4ydyf2cmT8c3f\nQoc++snYsLKz0pw4K91GNGbR65fb2Q+pO/GuPiS8PqlGjmPLMZWHAEx0LUS2H7D5\nGNefNis7+XrS5Qq4HpiG9bcdTTOaUR2KhyNskjbeq1cOAU+CuuyCE3buAq7Zlktg\nTF7Zr+yWWV3uujYwgnCg3bUzyHWwuBBR9iKeHYSPnu0=\n-----END CERTIFICATE-----\n"})
 
+
+(def cert-endpoint "https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com")
+
+(defn refresh-certs
+  []
+  (let [resp (client/get cert-endpoint)]
+    (if (= 200 (:status resp))
+      (json/decode (:body resp)))))
