@@ -6,15 +6,16 @@
 
 (defn is-authorized?
   [token]
-  (if-let [user (tok/decode-object token)]
-    (let [user (tok/firebase->user user)]
-      (cond
-        (session/has-session? user session) true
+  (if-let [user (tok/token->user token)]
+    (cond
+      (session/has-session? user session) {:authorized true
+                                           :session :existing}
 
-        (session/can-add-user? user)
-        (do (session/add-user user session)
-            true)
+      (session/can-add-user? user)
+      (do (session/add-user user session)
+          {:authorized true
+           :session :created})
 
-        :else
-        false))
-    false))
+      :else
+      {:authorized false})
+    {:authorized false}))
