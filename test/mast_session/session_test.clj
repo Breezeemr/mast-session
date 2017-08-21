@@ -40,4 +40,14 @@
                                       recent-threshold)
                                     (t/minutes 1))})
           session (atom {user-id user})]
-      (is (= true (has-session? user session))))))
+      (is (= true (has-session? user session)))))
+  (testing "user has session but ticket is old"
+    (let [user-id   1
+          last-active (t/plus (t/now) (t/minutes -1))
+          issued-at   (t/plus (t/now) (t/minutes -200))
+          user        (user-auth-time 5
+                        {:user-id     user-id
+                         :issued-at  issued-at})
+          session     (atom {user-id {:user-id     user-id
+                                      :last-access last-active}})]
+      (is (not (has-session? user session))))))

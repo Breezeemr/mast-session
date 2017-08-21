@@ -34,5 +34,6 @@
 (defn has-session?
   [user session]
   (if-let [user-session (get @session (:user-id user))]
-    (recent? (t/now) (:last-access user-session) recent-threshold)
+    (and (recent? (t/now) (:issued-at user) recent-threshold)
+      (recent? (t/now) (:last-access user-session) recent-threshold))
     false))
