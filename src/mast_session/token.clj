@@ -48,11 +48,11 @@
 (defn firebase->user
   "Normalize timestamps"
   [firebase]
-  (letfn [(timestamp [m v] (update m v convert/from-epoch))]
+  (letfn [(epoch->joda [m v] (update m v convert/from-epoch))]
     (let [bad-names    (-> firebase
-                         (timestamp :exp)
-                         (timestamp :auth_time)
-                         (timestamp :iat))
+                         (epoch->joda :exp)
+                         (epoch->joda :auth_time)
+                         (epoch->joda :iat))
           renamed-keys {:iat            :issued-at
                         :exp            :expires
                         :iss            :issuer
