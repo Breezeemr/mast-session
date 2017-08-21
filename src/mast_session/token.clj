@@ -1,4 +1,4 @@
-(ns mast-session.core
+(ns mast-session.token
   (:require [buddy.sign.jwt :as jwt]
             [buddy.sign.jws :as jws]
             [buddy.core.keys :as ks]
@@ -13,12 +13,20 @@
 
 (def certs (map ks/str->public-key (vals certs/google-certs)))
 
+
+(def default-token-options
+  {:alg :rs256})
+;; this won't need to map over all certs once we can see custom keys
+;; in the header. See
+;; https://github.com/funcool/buddy-sign/pull/52.
 (defn decode-object
-  [token]
-  (->> certs
-    (map #(decode-google-payload token % {:alg :rs256}))
-    (filter some?)
-    first))
+  ([token]
+   (decode-object token default-token-options))
+  ([token options]
+   (->> certs
+     (map #(decode-google-payload token % options))
+     (filter some?)
+     first)))
 
 ;; [:firebase :email :aud :sub :iss :exp :email_verified :auth_time :user_id :iat]
 
