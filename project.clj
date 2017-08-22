@@ -13,4 +13,6 @@
                  [ring/ring-defaults "0.2.1"]
                  [ring/ring-json "0.4.0"]]
   :plugins [[lein-ring "0.12.0"]]
-  :ring {:handler mast-session.handler/app})
+  :ring {:handler mast-session.handler/app}
+  :profiles {:dev {:dependencies [[ring/ring-jetty-adapter "1.5.0"]]
+                   :source-paths ["dev"]}})
