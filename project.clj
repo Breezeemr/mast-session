@@ -11,7 +11,8 @@
 
                  [compojure "1.5.1"]
                  [ring/ring-defaults "0.2.1"]
-                 [ring/ring-json "0.4.0"]]
+                 [ring/ring-json "0.4.0"]
+                 [ring-cors "0.1.11"]]
   :plugins [[lein-ring "0.12.0"]]
   :ring {:handler mast-session.handler/app}
   :profiles {:dev {:dependencies [[ring/ring-jetty-adapter "1.5.0"]]
